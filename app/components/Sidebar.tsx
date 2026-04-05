@@ -51,16 +51,17 @@ const navItems = [
   },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ className = "", hideHeader = false }: { className?: string; hideHeader?: boolean; }) {
   const pathname = usePathname();
 
   return (
-    <aside className="w-[220px] shrink-0 h-full flex flex-col bg-white border-r border-gray-200">
-      {/* Header */}
-      <div className="px-4 py-5 border-b border-gray-200">
-        <p className="text-sm font-semibold text-gray-900">Personal Hub</p>
-        <p className="text-xs text-gray-500 mt-0.5">Your private workspace</p>
-      </div>
+    <aside className={`${className} w-[220px] shrink-0 h-full flex flex-col bg-white border-r border-gray-200`}>
+      {!hideHeader ? (
+        <div className="px-4 py-5 border-b border-gray-200">
+          <p className="text-sm font-semibold text-gray-900">Personal Hub</p>
+          <p className="text-xs text-gray-500 mt-0.5">Your private workspace</p>
+        </div>
+      ) : null}
 
       {/* Nav */}
       <nav className="flex-1 px-2 py-3 space-y-0.5 overflow-y-auto">
