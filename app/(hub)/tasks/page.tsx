@@ -160,7 +160,12 @@ export default function TasksPage() {
       }
 
       if (error) {
-        console.error("Failed to load tasks", error);
+        console.error("Failed to load tasks", {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code,
+        });
         setTasks([]);
         setIsLoading(false);
         return;
@@ -247,8 +252,13 @@ export default function TasksPage() {
       const { error } = await supabase.from("tasks").update(payload).eq("id", editingTaskId);
 
       if (error) {
-        console.error("Failed to update task", error);
-        setFormError("Could not save changes. Try again.");
+        console.error("Failed to update task", {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code,
+        });
+        setFormError(error.message || "Could not save changes. Try again.");
         setIsSavingTask(false);
         return;
       }
@@ -280,8 +290,13 @@ export default function TasksPage() {
         .single();
 
       if (error || !data) {
-        console.error("Failed to create task", error);
-        setFormError("Could not create task. Try again.");
+        console.error("Failed to create task", error ? {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code,
+        } : "No data returned");
+        setFormError(error?.message || "Could not create task. Try again.");
         setIsSavingTask(false);
         return;
       }
@@ -316,7 +331,12 @@ export default function TasksPage() {
       .eq("id", task.id);
 
     if (error) {
-      console.error("Failed to toggle completion", error);
+      console.error("Failed to toggle completion", {
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        code: error.code,
+      });
       setTasks((prev) =>
         prev.map((row) => {
           if (row.id !== task.id) {
@@ -335,7 +355,12 @@ export default function TasksPage() {
         const { error } = await supabase.from("tasks").delete().eq("id", task.id);
 
         if (error) {
-          console.error("Failed to delete task", error);
+          console.error("Failed to delete task", {
+            message: error.message,
+            details: error.details,
+            hint: error.hint,
+            code: error.code,
+          });
           return;
         }
 
@@ -360,7 +385,12 @@ export default function TasksPage() {
       const { error } = await query;
 
       if (error) {
-        console.error("Failed to delete recurring tasks", error);
+        console.error("Failed to delete recurring tasks", {
+          message: error.message,
+          details: error.details,
+          hint: error.hint,
+          code: error.code,
+        });
         return;
       }
 
